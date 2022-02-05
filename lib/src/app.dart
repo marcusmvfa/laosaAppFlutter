@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:laosa_app/src/view/pedidos/dados_pedido.dart';
 import 'package:laosa_app/src/view/tela_inicial.dart';
 
@@ -60,9 +61,12 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
               // primaryColor: Colors.black87,
               appBarTheme: AppBarTheme(
-                  iconTheme: IconThemeData(color: Colors.black87),
-                  color: Colors.black87,
-                  titleTextStyle: TextStyle(color: Colors.black87))),
+                iconTheme: IconThemeData(color: Colors.black87),
+                color: Colors.black87,
+                titleTextStyle:
+                    TextStyle(color: Colors.black87, fontFamily: GoogleFonts.aBeeZee().fontFamily),
+              ),
+              fontFamily: GoogleFonts.aBeeZee().fontFamily),
           darkTheme: ThemeData.dark(),
           themeMode: settingsController.themeMode,
 

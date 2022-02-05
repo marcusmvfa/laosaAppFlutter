@@ -167,17 +167,18 @@ class _EditPedidoItemState extends State<EditPedidoItem> {
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
-                      // if (pedido.id.isEmpty) {
-                      //   ctrl.pedido.pedidoItens.value = List.from(ctrl.pedido.pedidoItens.value)
-                      //     ..add(
-                      //       pedido,
-                      //     );
-                      // } else {
-                      var item = List.from(ctrl.pedido.pedidoItens.value)
-                          .firstWhere((element) => element.id == pedido.id);
-                      item = pedido;
-                      ctrl.pedido.pedidoItens.notifyListeners();
-                      // }
+                      if (pedido.id.isEmpty) {
+                        ctrl.pedidoSelecionado.pedidoItens.value =
+                            List.from(ctrl.pedidoSelecionado.pedidoItens.value)
+                              ..add(
+                                pedido,
+                              );
+                      } else {
+                        var item = List.from(ctrl.pedidoSelecionado.pedidoItens.value)
+                            .firstWhere((element) => element.id == pedido.id);
+                        item = pedido;
+                        ctrl.pedidoSelecionado.pedidoItens.notifyListeners();
+                      }
                       Navigator.of(context).pop();
                     }
                   },

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:laosa_app/src/models/pedido_item_model.dart';
+import 'package:laosa_app/src/models/pedido_model.dart';
 import 'package:laosa_app/src/providers/pedido_provider.dart';
 import 'package:laosa_app/src/view/pedidos/edit_pedido_item.dart';
+import 'package:laosa_app/src/view/pedidos/header_pedido.dart';
 import 'package:laosa_app/src/view/pedidos/pedido_item.dart';
 import 'package:provider/provider.dart';
 
@@ -13,15 +15,34 @@ class DadosPedido extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var ctrl = Provider.of<PedidoProvider>(context, listen: false);
+    final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    ctrl.getPedido(args["id"]);
     return Scaffold(
       appBar: AppBar(
         actions: [
           ValueListenableBuilder(
-              valueListenable: ctrl.pedido.isEdit,
+              valueListenable: ctrl.pedidoSelecionado.isEdit,
               builder: (context, bool isEditing, child) {
                 return IconButton(
-                    onPressed: () => ctrl.pedido.isEdit.value = !ctrl.pedido.isEdit.value,
-                    icon: isEditing ? Icon(Icons.save) : Icon(Icons.mode_edit_outline_outlined));
+                  onPressed: () {
+                    if (isEditing && ctrl.pedidoSelecionado.id.isEmpty) {
+                      ctrl.pedidos.add(ctrl.pedidoSelecionado);
+                      ctrl.pedidoSelecionado = PedidoModel();
+                      Navigator.of(context).pop();
+                    } else if (isEditing && ctrl.pedidoSelecionado.id.isNotEmpty) {
+                      var ped = ctrl.pedidos
+                          .firstWhere((element) => element.id == ctrl.pedidoSelecionado.id);
+                      ped = ctrl.pedidoSelecionado;
+                      ctrl.pedidoSelecionado = PedidoModel();
+                      Navigator.of(context).pop();
+                    } else {
+                      ctrl.pedidoSelecionado.isEdit.value = true;
+                    }
+                  },
+                  icon: isEditing
+                      ? const Icon(Icons.save)
+                      : const Icon(Icons.mode_edit_outline_outlined),
+                );
               })
         ],
         backgroundColor: Colors.transparent,
@@ -30,8 +51,8 @@ class DadosPedido extends StatelessWidget {
       floatingActionButton: ElevatedButton(
         style: ElevatedButton.styleFrom(primary: Colors.purple),
         onPressed: () {
-          if (ctrl.pedido.isEdit.value == false) {
-            ctrl.pedido.isEdit.value = !ctrl.pedido.isEdit.value;
+          if (ctrl.pedidoSelecionado.isEdit.value == false) {
+            ctrl.pedidoSelecionado.isEdit.value = !ctrl.pedidoSelecionado.isEdit.value;
           }
           showDialog(
             context: context,
@@ -43,22 +64,15 @@ class DadosPedido extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [Text("Cliente: Eliane"), Text("Entrega 02/02/2022")],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: const [Text("Total: R\$ 150.00")],
-            ),
+            HeaderPedido(),
             ValueListenableBuilder(
-                valueListenable: ctrl.pedido.pedidoItens,
+                valueListenable: ctrl.pedidoSelecionado.pedidoItens,
                 builder: (context, model, chi) {
                   return ListView.builder(
                       shrinkWrap: true,
-                      itemCount: ctrl.pedido.pedidoItens.value.length,
+                      itemCount: ctrl.pedidoSelecionado.pedidoItens.value.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return PedidoItem(ctrl.pedido.pedidoItens.value[index]);
+                        return PedidoItem(ctrl.pedidoSelecionado.pedidoItens.value[index]);
                       });
                 }),
           ],
