@@ -1,4 +1,4 @@
-package com.example.laosa_app
+package com.marcusantunes.laosa_app
 
 import io.flutter.embedding.android.FlutterActivity
 

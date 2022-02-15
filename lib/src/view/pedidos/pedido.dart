@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:laosa_app/src/models/pedido_item_model.dart';
+import 'package:laosa_app/src/models/pedido_model.dart';
+import 'package:laosa_app/src/providers/pedido_provider.dart';
 import 'package:laosa_app/src/view/pedidos/dados_pedido.dart';
+import 'package:provider/provider.dart';
 
 class Pedido extends StatefulWidget {
-  const Pedido({Key? key}) : super(key: key);
+  const Pedido(this.pedido, {Key? key}) : super(key: key);
+  final PedidoModel pedido;
 
   @override
   _PedidoState createState() => _PedidoState();
@@ -20,8 +24,12 @@ class _PedidoState extends State<Pedido> {
 
   @override
   Widget build(BuildContext context) {
+    var ctrl = Provider.of<PedidoProvider>(context, listen: false);
     return InkWell(
-      onTap: () => Navigator.restorablePushNamed(context, DadosPedido.routeName),
+      onTap: () {
+        ctrl.pedidoSelecionado = widget.pedido;
+        Navigator.restorablePushNamed(context, DadosPedido.routeName);
+      },
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         elevation: 2,
@@ -33,7 +41,7 @@ class _PedidoState extends State<Pedido> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Chip(
-                    labelPadding: EdgeInsets.all(1),
+                    labelPadding: const EdgeInsets.all(1),
                     backgroundColor: const Color(0xff3F72AF),
                     label: Wrap(
                       crossAxisAlignment: WrapCrossAlignment.center,
@@ -71,7 +79,7 @@ class _PedidoState extends State<Pedido> {
                 ],
               ),
               Padding(
-                padding: EdgeInsets.all(8),
+                padding: const EdgeInsets.all(8),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: const [

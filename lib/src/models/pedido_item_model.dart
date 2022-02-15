@@ -1,5 +1,6 @@
 // ignore_for_file: constant_identifier_names
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
 enum TipoItens { Calcinha, Sutia, Maio, Camisola, Cueca, Pijama }
@@ -56,11 +57,84 @@ class PedidoItemModel {
   int qnt = 0;
   int extraSuperior = 0;
   int extraInferior = 0;
+  double valor = 0.0;
+  DateTime dataInclusao = DateTime.now();
   ValueNotifier<Tamanho> tamSuperior = ValueNotifier(Tamanho.M);
   ValueNotifier<Tamanho> tamInferior = ValueNotifier(Tamanho.P);
   ValueNotifier<TipoItens> tipo = ValueNotifier(TipoItens.Calcinha);
   ValueNotifier<bool> renda = ValueNotifier(false);
-  double valor = 0.0;
 
   PedidoItemModel();
+
+  Tamanho setTam(String tam) {
+    switch (tam) {
+      case 'P':
+        return Tamanho.P;
+      case 'PP':
+        return Tamanho.PP;
+      case 'M':
+        return Tamanho.M;
+      case 'G':
+        return Tamanho.G;
+      case 'GG':
+        return Tamanho.GG;
+      case 'XG':
+        return Tamanho.XG;
+      case 'XXG':
+        return Tamanho.XGG;
+      default:
+        return Tamanho.P;
+    }
+  }
+
+  TipoItens setType(String type) {
+    switch (type) {
+      case 'Calcinha':
+        return TipoItens.Calcinha;
+      case 'Sutia':
+        return TipoItens.Sutia;
+      case 'Maio':
+        return TipoItens.Maio;
+      case 'Camisola':
+        return TipoItens.Camisola;
+      case 'Cueca':
+        return TipoItens.Cueca;
+      case 'Pijama':
+        return TipoItens.Pijama;
+      default:
+        return TipoItens.Calcinha;
+    }
+  }
+
+  PedidoItemModel.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    idPedido = json['idPedido'];
+    obs = json['obs'];
+    extraSuperior = json['extraSuperior'];
+    extraInferior = json['extraInferior'];
+    tamSuperior.value = setTam(json['tamSuperior']);
+    tamInferior.value = setTam(json['tamInferior']);
+    tipo.value = setType(json['tipo']);
+    renda.value = json['renda'];
+    valor = json['valor'];
+    dataInclusao = json['dataInclusao'] != null
+        ? (json['dataInclusao'] as Timestamp).toDate()
+        : DateTime.now();
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      "id": id,
+      "idPedido": idPedido,
+      "obs": obs,
+      "extraSuperior": extraSuperior,
+      "extraInferior": extraInferior,
+      "tamSuperior": tamSuperior.value.name,
+      "tamInferior": tamInferior.value.name,
+      "tipo": tipo.value.name,
+      "renda": renda.value,
+      "valor": valor,
+      "dataInclusao": dataInclusao.toIso8601String()
+    };
+  }
 }

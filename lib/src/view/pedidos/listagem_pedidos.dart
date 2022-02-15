@@ -10,6 +10,7 @@ class ListagemPedidos extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var ctrl = Provider.of<PedidoProvider>(context, listen: false);
+
     return Container(
       // height: 80,
       color: const Color(0xffF5EEE6),
@@ -20,7 +21,7 @@ class ListagemPedidos extends StatelessWidget {
           children: [
             const Text(
               "Olá Osana,\nO que vai ser hoje?",
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
             ),
             const SizedBox(
               height: 16,
@@ -38,12 +39,26 @@ class ListagemPedidos extends StatelessWidget {
             const SizedBox(
               height: 8,
             ),
-            ListView.builder(
-                shrinkWrap: true,
-                itemCount: ctrl.pedidos.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return const Pedido();
-                }),
+            FutureBuilder(
+                future: ctrl.getPedidos(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const SizedBox(
+                      height: 100,
+                      child: CircularProgressIndicator(
+                        color: Colors.deepPurple,
+                        strokeWidth: 2,
+                      ),
+                    );
+                  } else {
+                    return ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: ctrl.pedidos.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Pedido(ctrl.pedidos[index]);
+                        });
+                  }
+                })
           ],
         ),
       ),

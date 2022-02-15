@@ -15,8 +15,6 @@ class DadosPedido extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var ctrl = Provider.of<PedidoProvider>(context, listen: false);
-    final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    ctrl.getPedido(args["id"]);
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -25,19 +23,7 @@ class DadosPedido extends StatelessWidget {
               builder: (context, bool isEditing, child) {
                 return IconButton(
                   onPressed: () {
-                    if (isEditing && ctrl.pedidoSelecionado.id.isEmpty) {
-                      ctrl.pedidos.add(ctrl.pedidoSelecionado);
-                      ctrl.pedidoSelecionado = PedidoModel();
-                      Navigator.of(context).pop();
-                    } else if (isEditing && ctrl.pedidoSelecionado.id.isNotEmpty) {
-                      var ped = ctrl.pedidos
-                          .firstWhere((element) => element.id == ctrl.pedidoSelecionado.id);
-                      ped = ctrl.pedidoSelecionado;
-                      ctrl.pedidoSelecionado = PedidoModel();
-                      Navigator.of(context).pop();
-                    } else {
-                      ctrl.pedidoSelecionado.isEdit.value = true;
-                    }
+                    ctrl.savePedido(context);
                   },
                   icon: isEditing
                       ? const Icon(Icons.save)
@@ -65,15 +51,25 @@ class DadosPedido extends StatelessWidget {
         child: Column(
           children: [
             HeaderPedido(),
-            ValueListenableBuilder(
-                valueListenable: ctrl.pedidoSelecionado.pedidoItens,
-                builder: (context, model, chi) {
-                  return ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: ctrl.pedidoSelecionado.pedidoItens.value.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return PedidoItem(ctrl.pedidoSelecionado.pedidoItens.value[index]);
-                      });
+            FutureBuilder(
+                future: ctrl.getPedidoItens(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const CircularProgressIndicator(
+                      strokeWidth: 2,
+                    );
+                  } else {
+                    return ValueListenableBuilder(
+                        valueListenable: ctrl.pedidoSelecionado.pedidoItens,
+                        builder: (context, model, chi) {
+                          return ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: ctrl.pedidoSelecionado.pedidoItens.value.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return PedidoItem(ctrl.pedidoSelecionado.pedidoItens.value[index]);
+                              });
+                        });
+                  }
                 }),
           ],
         ),

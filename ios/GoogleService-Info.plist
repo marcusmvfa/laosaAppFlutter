@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>161487940492-jst0omhsp84j37pu3evnh9ue31f3bmub.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.161487940492-jst0omhsp84j37pu3evnh9ue31f3bmub</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>161487940492-324rlq5bf14tvcl5v4jpq1kjevrfq85u.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDA8Tvcw_HS0OFHd8HH92kwzncA__8G-xw</string>
+	<key>GCM_SENDER_ID</key>
+	<string>161487940492</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.laosaApp</string>
+	<key>PROJECT_ID</key>
+	<string>laosa-app</string>
+	<key>STORAGE_BUCKET</key>
+	<string>laosa-app.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:161487940492:ios:25417e2f729a2f8dc104a9</string>
+</dict>
+</plist>
