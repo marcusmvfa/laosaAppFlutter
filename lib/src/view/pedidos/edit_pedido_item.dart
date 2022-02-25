@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:laosa_app/src/models/pedido_item_model.dart';
 import 'package:laosa_app/src/providers/pedido_provider.dart';
+import 'package:laosa_app/src/view/general/delete_dialog.dart';
 import 'package:provider/provider.dart';
 
 class EditPedidoItem extends StatefulWidget {
@@ -85,7 +86,26 @@ class _EditPedidoItemState extends State<EditPedidoItem> {
                         return Checkbox(
                             value: pedido.renda.value,
                             onChanged: (value) => pedido.renda.value = value!);
-                      })
+                      }),
+                  Spacer(),
+                  IconButton(
+                      alignment: Alignment.centerRight,
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return const DeleteDialog();
+                            }).then((value) async {
+                          if (value) {
+                            await ctrl.deletePedidoItem(pedido.id);
+                            Navigator.of(context).pop("delete");
+                          }
+                        });
+                      },
+                      icon: const Icon(
+                        Icons.delete_forever_outlined,
+                        color: Colors.red,
+                      )),
                 ]),
                 Row(
                   children: [

@@ -36,6 +36,7 @@ class PedidoProvider extends ChangeNotifier {
 
   Future<void> getPedidoItens() async {
     CollectionReference pedidosFirebase = FirebaseFirestore.instance.collection('pedidoItens');
+    pedidoSelecionado.pedidoItens.value.clear();
     pedidosFirebase.where('idPedido', isEqualTo: pedidoSelecionado.id).get().then((querySnapshot) {
       querySnapshot.docs.forEach((element) {
         pedidoSelecionado.pedidoItens.value
@@ -95,5 +96,11 @@ class PedidoProvider extends ChangeNotifier {
       i.id = gerado.id;
       batch.set(gerado, i.toMap());
     }
+  }
+
+  Future deletePedidoItem(String id) async {
+    CollectionReference pedidoItemFirebase = FirebaseFirestore.instance.collection('pedidoItens');
+    await pedidoItemFirebase.doc(id).delete();
+    pedidoSelecionado.pedidoItens.value.removeWhere((element) => element.id == id);
   }
 }
