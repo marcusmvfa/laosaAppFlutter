@@ -14,18 +14,18 @@ class DadosPedido extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var ctrl = Provider.of<PedidoProvider>(context, listen: false);
+    var ctrl = Provider.of<PedidoProvider>(context, listen: true);
     return Scaffold(
       appBar: AppBar(
         actions: [
-          ValueListenableBuilder(
+          ValueListenableBuilder<bool>(
               valueListenable: ctrl.pedidoSelecionado.isEdit,
               builder: (context, bool isEditing, child) {
                 return IconButton(
                   onPressed: () {
                     ctrl.savePedido(context);
                   },
-                  icon: isEditing
+                  icon: ctrl.pedidoSelecionado.isEdit.value
                       ? const Icon(Icons.save)
                       : const Icon(Icons.mode_edit_outline_outlined),
                 );

@@ -34,9 +34,9 @@ class TelaInicial extends StatelessWidget {
     var ctrl = Provider.of<PedidoProvider>(context, listen: false);
 
     return Scaffold(
-      backgroundColor: Color(0xffF5EEE6),
+      backgroundColor: const Color(0xffF5EEE6),
       appBar: AppBar(
-        actions: [IconButton(onPressed: () => login(), icon: Icon(Icons.login))],
+        actions: [IconButton(onPressed: () => login(), icon: const Icon(Icons.login))],
         elevation: 0,
         backgroundColor: Colors.transparent,
         // title: const Center(
@@ -54,7 +54,7 @@ class TelaInicial extends StatelessWidget {
         child: const Icon(Icons.add),
       ),
       drawer: const DrawerWidget(),
-      body: ListagemPedidos(),
+      body: const ListagemPedidos(),
     );
   }
 }

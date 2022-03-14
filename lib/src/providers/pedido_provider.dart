@@ -27,6 +27,7 @@ class PedidoProvider extends ChangeNotifier {
 
   Future<void> getPedidos() async {
     CollectionReference pedidosFirebase = FirebaseFirestore.instance.collection('pedidos');
+    pedidos.clear();
     pedidosFirebase.get().then((querySnapshot) {
       querySnapshot.docs.forEach((element) {
         pedidos.add(PedidoModel.fromJson(element.data() as Map<String, dynamic>));
@@ -52,14 +53,16 @@ class PedidoProvider extends ChangeNotifier {
       var pedidoGerado = pedidosFirebase.doc();
       pedidoSelecionado.id = pedidoGerado.id;
       batch.set(pedidoGerado, pedidoSelecionado.toMap());
-      savePedidoItem(batch);
-      pedidoSelecionado = PedidoModel();
+      await savePedidoItem(batch);
+
+      pedidoSelecionado.isEdit.value = false;
     } else if (pedidoSelecionado.isEdit.value && pedidoSelecionado.id.isNotEmpty) {
-      var pedidoGerado = pedidosFirebase.doc();
-      pedidoSelecionado.id = pedidoGerado.id;
+      var pedidoGerado = pedidosFirebase.doc(pedidoSelecionado.id);
+
       batch.set(pedidoGerado, pedidoSelecionado.toMap());
-      savePedidoItem(batch);
-      pedidoSelecionado = PedidoModel();
+      await savePedidoItem(batch);
+
+      pedidoSelecionado.isEdit.value = false;
       // Navigator.of(context).pop();
     } else {
       pedidoSelecionado.isEdit.value = true;

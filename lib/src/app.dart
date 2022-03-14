@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:laosa_app/src/view/clientes/clientes_create_edit.dart';
+import 'package:laosa_app/src/view/clientes/clientes_view.dart';
 import 'package:laosa_app/src/view/pedidos/dados_pedido.dart';
 import 'package:laosa_app/src/view/tela_inicial.dart';
 
@@ -29,6 +31,7 @@ class MyApp extends StatelessWidget {
       animation: settingsController,
       builder: (BuildContext context, Widget? child) {
         return MaterialApp(
+          debugShowCheckedModeBanner: false,
           // Providing a restorationScopeId allows the Navigator built by the
           // MaterialApp to restore the navigation stack when a user leaves and
           // returns to the app after it has been killed while running in the
@@ -62,7 +65,7 @@ class MyApp extends StatelessWidget {
               // primaryColor: Colors.black87,
               appBarTheme: AppBarTheme(
                 iconTheme: IconThemeData(color: Colors.black87),
-                color: Colors.black87,
+                color: Colors.white,
                 titleTextStyle:
                     TextStyle(color: Colors.black87, fontFamily: GoogleFonts.aBeeZee().fontFamily),
               ),
@@ -83,6 +86,10 @@ class MyApp extends StatelessWidget {
                     return const SampleItemDetailsView();
                   case DadosPedido.routeName:
                     return const DadosPedido();
+                  case ClientesView.route:
+                    return const ClientesView();
+                  case ClientesCreateEdit.routeName:
+                    return const ClientesView();
                   case TelaInicial.routeName:
                   default:
                     return const TelaInicial();

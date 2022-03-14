@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:laosa_app/src/providers/pedido_provider.dart';
+import 'package:laosa_app/src/view/clientes/clientes_view.dart';
 import 'package:provider/provider.dart';
 
 class NumberPedidoCard extends StatelessWidget {
@@ -83,36 +84,39 @@ class NumberPedidoCard extends StatelessWidget {
             ),
             // ),
           ),
-          Card(
-            color: Color(0xff3F72AF),
-            elevation: 2,
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                children: [
-                  Text(
-                    "Total de Clientes",
-                    style:
-                        TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.white),
-                  ),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  Wrap(spacing: 10.0, children: const [
-                    Icon(
-                      Icons.people_alt_outlined,
-                      color: Colors.white,
-                    ),
-                    Text(
-                      "5",
+          InkWell(
+            onTap: (() => Navigator.pushNamed(context, ClientesView.route)),
+            child: Card(
+              color: const Color(0xff3F72AF),
+              elevation: 2,
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  children: [
+                    const Text(
+                      "Total de Clientes",
                       style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white),
+                          TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.white),
                     ),
-                  ]),
-                ],
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    Wrap(spacing: 10.0, children: const [
+                      Icon(
+                        Icons.people_alt_outlined,
+                        color: Colors.white,
+                      ),
+                      Text(
+                        "5",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w600, color: Colors.white),
+                      ),
+                    ]),
+                  ],
+                ),
               ),
+              // ),
             ),
-            // ),
           ),
           // Expanded(
           //   child:
